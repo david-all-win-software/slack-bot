@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - test
   pull_request:
   workflow_dispatch:
     inputs:
@@ -17,9 +18,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        environment: [qa, production]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    environment: ${{ github.event.inputs.environment }}
+    environment: ${{ matrix.environment }}
     steps:
       - run: echo ${{ vars.SLACK_CHANNEL }}
       # - name: Checkout code
