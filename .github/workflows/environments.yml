@@ -1,0 +1,7 @@
+environments:
+  production:
+    url: myapp.com
+  staging:
+    url: staging.myapp.com
+  development:
+    url: dev.myapp.com
