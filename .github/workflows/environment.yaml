@@ -1,0 +1,26 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: Env
+
+jobs:
+  test:
+    name: Run tests and build binary
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - run: echo ${{ vars.SLACK_CHANNEL }}
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
