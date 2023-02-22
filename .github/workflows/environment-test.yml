@@ -8,17 +8,20 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
+      all:
+        type: boolean
+        description: Build for all environments
       environment:
         type: environment
         description: Env
 
 jobs:
   test:
-    name: Run tests and build binary
+    name: Run ${{ matrix.environment }}
     strategy:
       fail-fast: false
       matrix:
-        environment: ${{ github.event.inputs.environment && fromJson(format('["{0}"]',  github.event.inputs.environment)) || fromJson('["qa", "production"]') }}
+        environment: ${{ ((github.event.event_name != 'workflow_dispatch' || github.event.inputs.all) && fromJson('["qa", "production"]')) || github.event.inputs.environment && fromJson(format('["{0}"]',  github.event.inputs.environment)) }}
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     environment: ${{ matrix.environment }}
