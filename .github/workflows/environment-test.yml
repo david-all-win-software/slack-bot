@@ -24,8 +24,15 @@ jobs:
         environment: ${{ ((github.event.event_name != 'workflow_dispatch' || github.event.inputs.all) && fromJson('["qa", "production"]')) || github.event.inputs.environment && fromJson(format('["{0}"]',  github.event.inputs.environment)) }}
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    environment: ${{ matrix.environment }}
+    environment:
+      name: ${{ matrix.environment }}
+      url: ${{ steps.build.outputs.url_output }}
     steps:
-      - run: echo ${{ vars.SLACK_CHANNEL }}
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
+      - id: build
+        run: |
+          echo ${{ vars.SLACK_CHANNEL }}
+          if [[ "${{ matrix.environment }}" == "production" ]]; then
+            echo "url_output=https://google.com" >> $GITHUB_OUTPUT
+          else
+            echo "url_output=https://github.com" >> $GITHUB_OUTPUT
+          fi
