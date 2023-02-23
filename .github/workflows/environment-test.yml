@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: ${{ ((github.event.event_name != 'workflow_dispatch' || github.event.inputs.all) && fromJson('["qa", "production"]')) || github.event.inputs.environment && fromJson(format('["{0}"]',  github.event.inputs.environment)) }}
+        environment: ${{ github.event.inputs.all == 'false' && fromJson(format('["{0}"]',  github.event.inputs.environment)) || fromJson('["qa", "production"]') }}
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     environment:
