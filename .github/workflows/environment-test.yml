@@ -3,7 +3,6 @@ name: TestEnv
 on:
   push:
     branches:
-      - master
       - test
   pull_request:
   workflow_dispatch:
