@@ -21,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: ${{ github.event.inputs.all == 'false' && fromJson(format('["{0}"]',  github.event.inputs.environment)) || fromJson('["qa", "production"]') }}
+        environment: ${{ github.event.inputs.all == 'false' && fromJson(format('["{0}"]',  github.event.inputs.environment)) || fromJson('["qa", "production", "", null]') }}
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     environment:
